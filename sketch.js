@@ -5,23 +5,25 @@ let index = 0;
 let arcs = [];
 let biggest = 0;
 
-class Arc {
+class ArcColor {
   constructor(start, end, dir) {
     this.start = start;
     this.end = end;
     this.dir = dir;
+    this.red = random(50, 255, 20, 30); //COLOR RANDOM
+    this.green = random(50, 255, 20, 1); //COLOR RANDOM
+    this.blue = random(50, 255, 20, 30); //COLOR RANDOM
   }
 
   show() {
-    let diameter = abs(this.end - this.start);
+    let diameter = abs(this.end - this.start++); // AQUI VARIA EL TAMANO DE LOS CUADRADOS
+    //let x = windowWidth / 2;
     let x = (this.end + this.start) / 2;
-    stroke(255);
+    stroke(this.red, this.green, this.blue); //COLOR RANDOM
     strokeWeight(0.3);
     noFill();
     if (this.dir == 0) {
-      arc(x, 0, diameter, diameter, PI, 0);
-    } else {
-      arc(x, 0, diameter, diameter, 0, PI);
+      square(x - x, 0, diameter);
     }
   }
 }
@@ -54,7 +56,7 @@ function step() {
 
 function draw() {
   step();
-  translate(0, height / 2);
+  translate(windowWidth / 2, windowHeight / 2);
   scale(width / biggest);
   background(0);
 
