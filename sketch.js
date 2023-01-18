@@ -21,9 +21,13 @@ function step() {
   let diameter = next - index;
   let x = (next + index) / 2;
   stroke(255);
-  strokeWeight(random);
+  //strokeWeight(random);
   noFill();
-  ellipse(x, height / 2, diameter);
+  if (count % 2 == 0) {
+    arc(x, height / 2, diameter, diameter, PI, 0);
+  } else {
+    arc(x, height / 2, diameter, diameter, 0, PI);
+  }
 
   index = next;
   count++;
