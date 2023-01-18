@@ -2,8 +2,8 @@ let numbers = [];
 let count = 1;
 let sequence = [];
 let index = 0;
-
 let arcs = [];
+let biggest = 0;
 
 class Arc {
   constructor(start, end, dir) {
@@ -44,13 +44,18 @@ function step() {
   let a = new Arc(index, next, count % 2);
   arcs.push(a);
   index = next;
+
+  if (index > biggest) {
+    biggest = index;
+  }
+
   count++;
 }
 
 function draw() {
   step();
   translate(0, height / 2);
-  scale(width / count);
+  scale(width / biggest);
   background(0);
 
   for (let a of arcs) {
