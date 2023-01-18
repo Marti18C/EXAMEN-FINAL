@@ -3,8 +3,31 @@ let count = 1;
 let sequence = [];
 let index = 0;
 
+let arcs = [];
+
+class Arc {
+  constructor(start, end, dir) {
+    this.start = start;
+    this.end = end;
+    this.dir = dir;
+  }
+
+  show() {
+    let diameter = abs(this.end - this.start);
+    let x = (this.end + this.start) / 2;
+    stroke(255);
+    strokeWeight(0.3);
+    noFill();
+    if (this.dir == 0) {
+      arc(x, 0, diameter, diameter, PI, 0);
+    } else {
+      arc(x, 0, diameter, diameter, 0, PI);
+    }
+  }
+}
+
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(windowWidth, windowHeight);
   background(0);
   numbers[index] = true;
   sequence.push(index);
@@ -18,22 +41,19 @@ function step() {
   numbers[next] = true;
   sequence.push(next);
 
-  let diameter = next - index;
-  let x = (next + index) / 2;
-  stroke(255);
-  //strokeWeight(random);
-  noFill();
-  if (count % 2 == 0) {
-    arc(x, height / 2, diameter, diameter, PI, 0);
-  } else {
-    arc(x, height / 2, diameter, diameter, 0, PI);
-  }
-
+  let a = new Arc(index, next, count % 2);
+  arcs.push(a);
   index = next;
   count++;
 }
 
 function draw() {
   step();
-  //console.log(index);
+  translate(0, height / 2);
+  scale(width / count);
+  background(0);
+
+  for (let a of arcs) {
+    a.show();
+  }
 }
