@@ -5,25 +5,34 @@ let index = 0;
 let arcs = [];
 let biggest = 0;
 
-class ArcColor {
+class Arc {
   constructor(start, end, dir) {
     this.start = start;
     this.end = end;
     this.dir = dir;
-    this.red = random(50, 255, 20, 30); //COLOR RANDOM
-    this.green = random(50, 255, 20, 1); //COLOR RANDOM
-    this.blue = random(50, 255, 20, 30); //COLOR RANDOM
   }
 
   show() {
     let diameter = abs(this.end - this.start++); // AQUI VARIA EL TAMANO DE LOS CUADRADOS
     //let x = windowWidth / 2;
     let x = (this.end + this.start) / 2;
-    stroke(this.red, this.green, this.blue); //COLOR RANDOM
-    strokeWeight(0.3);
+
+    var r = random(10, 250);
+    var g = random(10, 250);
+    var b = random(10, 250);
+
+    var c = color(r, g, b);
+
+    stroke(c); //COLOR RANDOM
+    //stroke(255);
+
+    var s = random(0.3, 20);
+
+    strokeWeight(s);
     noFill();
     if (this.dir == 0) {
-      square(x - x, 0, diameter);
+      rectMode(CENTER);
+      square(0, 0, diameter);
     }
   }
 }
@@ -63,4 +72,8 @@ function draw() {
   for (let a of arcs) {
     a.show();
   }
+}
+
+function mousePressed(event) {
+  background(0);
 }
