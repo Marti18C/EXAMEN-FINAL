@@ -29,6 +29,7 @@ class Arc {
 
     strokeWeight(sw);
     noFill();
+
     if (this.dir == 0) {
       rectMode(CENTER);
       square(0, 0, diameter);
@@ -42,6 +43,7 @@ function setup() {
   numbers[index] = true;
   sequence.push(index);
   frameRate(30);
+  angleMode(DEGREES);
 }
 
 function step() {
@@ -60,7 +62,7 @@ function step() {
   if (index > biggest) {
     biggest = index;
   }
-  print(arcs.length);
+  //print(biggest);
   count++;
 }
 
@@ -68,18 +70,41 @@ function draw() {
   step();
   translate(windowWidth / 2, windowHeight / 2);
   scale(5);
-  background(0);
+  background(0, 50);
+
+  // for (let [i, a] of arcs.entries()) {
+  // if (arcs.diameter > 200) {
+  //   // es mejor con arcs.lenght
+  //    arcs.splice(5);
+  //  } else if (a.show()) {
+  //  } else if (arcs.lenght < 20) {
+  //    a.show();
+  //  }
+  //}
 
   for (let [i, a] of arcs.entries()) {
-    if (arcs.diameter > 200) {
-      // es mejor con arcs.lenght
-      arcs.splice(5);
+    if (biggest > 1000) {
+      resetAll();
     } else if (a.show()) {
-    } //else if (arcs.lenght < 20) {a.show()}
-  }
+    } else if (arcs.lenght < 20) {
+      a.show();
+    }
 
-  function mousePressed() {
-    background(255);
-    frameRate = interval = ceil(random(10, 40));
+    print(biggest);
   }
+}
+
+function resetAll() {
+  var girar = random(0, 360);
+  rotate(girar);
+  arcs = [];
+  sequence = [];
+  count = 0;
+  index = 0;
+  biggest = 0;
+}
+
+function mousePressed() {
+  background(255);
+  frameRate = interval = ceil(random(1, 40));
 }
