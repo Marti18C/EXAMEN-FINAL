@@ -10,6 +10,9 @@ class Arc {
     this.start = start;
     this.end = end;
     this.dir = dir;
+    this.r = random(10, 250);
+    this.g = random(10, 250);
+    this.b = random(10, 250);
   }
 
   show() {
@@ -17,18 +20,14 @@ class Arc {
     //let x = windowWidth / 2;
     let x = (this.end + this.start) / 2;
 
-    var r = random(10, 250);
-    var g = random(10, 250);
-    var b = random(10, 250);
-
-    var c = color(r, g, b);
+    var c = color(this.r, this.g, this.b);
 
     stroke(c); //COLOR RANDOM
     //stroke(255);
 
-    var s = random(0.3, 20);
+    var sw = 1;
 
-    strokeWeight(s);
+    strokeWeight(sw);
     noFill();
     if (this.dir == 0) {
       rectMode(CENTER);
@@ -42,6 +41,7 @@ function setup() {
   background(0);
   numbers[index] = true;
   sequence.push(index);
+  frameRate(30);
 }
 
 function step() {
@@ -53,27 +53,33 @@ function step() {
   sequence.push(next);
 
   let a = new Arc(index, next, count % 2);
+
   arcs.push(a);
   index = next;
 
   if (index > biggest) {
     biggest = index;
   }
-
+  print(arcs.length);
   count++;
 }
 
 function draw() {
   step();
   translate(windowWidth / 2, windowHeight / 2);
-  scale(width / biggest);
+  scale(5);
   background(0);
 
-  for (let a of arcs) {
-    a.show();
+  for (let [i, a] of arcs.entries()) {
+    if (arcs.diameter > 200) {
+      // es mejor con arcs.lenght
+      arcs.splice(5);
+    } else if (a.show()) {
+    } //else if (arcs.lenght < 20) {a.show()}
   }
-}
 
-function mousePressed(event) {
-  background(0);
+  function mousePressed() {
+    background(255);
+    frameRate = interval = ceil(random(10, 40));
+  }
 }
