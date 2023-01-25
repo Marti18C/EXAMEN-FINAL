@@ -1,9 +1,18 @@
+var attackLevel = 1.0;
+var releaseLevel = 0;
+
+var attackTime = 0.001;
+var decayTime = 0.2;
+var susPercent = 0.2;
+var releaseTime = 0.5;
+
 let numbers = [];
 let count = 1;
 let sequence = [];
 let index = 0;
 let arcs = [];
 let biggest = 0;
+let osc;
 
 class Arc {
   constructor(start, end, dir) {
@@ -39,10 +48,23 @@ class Arc {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  frameRate(30);
   background(0);
+
+  env = new p5.Env();
+  env.setADSR(attackTime, decayTime, susPercent, releaseTime);
+  env.setRange(attackLevel, releaseLevel);
+
+  osc = new p5.Oscillator();
+  osc.setType("sine");
+  //osc.freq(240);
+  osc.amp(env);
+  osc.start();
+
+  //env.play();
+
   numbers[index] = true;
   sequence.push(index);
-  frameRate(30);
   angleMode(DEGREES);
 }
 
@@ -55,9 +77,15 @@ function step() {
   sequence.push(next);
 
   let a = new Arc(index, next, count % 2);
-
   arcs.push(a);
   index = next;
+
+  let n = (index % 25) + 24;
+
+  let freq = pow(2, (n - 49) / 12) * 440;
+  console.log(index, freq);
+  osc.freq(freq);
+  env.play();
 
   if (index > biggest) {
     biggest = index;
@@ -69,8 +97,8 @@ function step() {
 function draw() {
   step();
   translate(windowWidth / 2, windowHeight / 2);
-  scale(5);
-  background(0, 50);
+  scale(8);
+  background(0, 30);
 
   // for (let [i, a] of arcs.entries()) {
   // if (arcs.diameter > 200) {
@@ -102,6 +130,7 @@ function resetAll() {
   count = 0;
   index = 0;
   biggest = 0;
+  var c = color(this.r, this.g, this.b);
 }
 
 function mousePressed() {
