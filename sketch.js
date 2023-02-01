@@ -14,6 +14,8 @@ let arcs = [];
 let biggest = 0;
 let osc;
 
+let angulo = 0;
+
 class Arc {
   constructor(start, end, dir) {
     this.start = start;
@@ -109,6 +111,7 @@ function draw() {
   //    a.show();
   //  }
   //}
+  rotate(angulo);
 
   for (let [i, a] of arcs.entries()) {
     if (biggest > 1000) {
@@ -123,8 +126,7 @@ function draw() {
 }
 
 function resetAll() {
-  var girar = random(0, 360);
-  rotate(girar);
+  angulo = random(0, 360);
   arcs = [];
   sequence = [];
   count = 0;
